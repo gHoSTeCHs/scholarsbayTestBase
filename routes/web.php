@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CollegeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
+use App\Models\School;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,7 +18,9 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $schools = School::all();
+
+    return Inertia::render('Dashboard', ['schools' => $schools]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -26,5 +30,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/schools', [SchoolController::class, 'store'])->name('schools.store');
+Route::post('/colleges', [CollegeController::class, 'store'])->name('colleges.store');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

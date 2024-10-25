@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\College;
 use App\Models\School;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class SchoolController extends Controller
+class CollegeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -30,26 +31,30 @@ class SchoolController extends Controller
     public function store(Request $request)
     {
         $attributes = request()->validate([
-            'title' => 'required',
+            'name' => 'required',
             'abbreviation' => 'required',
+            'school' => 'required',
         ]);
 
-        $school = School::query()->create([
-            'name' => $attributes['title'],
+        $school = School::query()->where('name', $attributes['school'])->first();
+
+        $college = College::query()->create([
+            'name' => $attributes['name'],
             'abbreviation' => $attributes['abbreviation'],
+            'school_id' => $school->id,
         ]);
 
-        $directory = 'schools/' . $attributes['abbreviation'];
+        $directory = 'schools/' . $school->abbreviation . '/colleges/' . $attributes['abbreviation'];
 
         if (!file_exists($directory)) {
             Storage::makeDirectory($directory);
-        };
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(School $school)
+    public function show(College $college)
     {
         //
     }
@@ -57,7 +62,7 @@ class SchoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(School $school)
+    public function edit(College $college)
     {
         //
     }
@@ -65,7 +70,7 @@ class SchoolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, School $school)
+    public function update(Request $request, College $college)
     {
         //
     }
@@ -73,7 +78,7 @@ class SchoolController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(School $school)
+    public function destroy(College $college)
     {
         //
     }

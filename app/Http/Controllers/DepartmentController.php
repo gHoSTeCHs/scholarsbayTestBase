@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\School;
+use App\Models\Department;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class SchoolController extends Controller
+class DepartmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -29,27 +28,13 @@ class SchoolController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = request()->validate([
-            'title' => 'required',
-            'abbreviation' => 'required',
-        ]);
-
-        $school = School::query()->create([
-            'name' => $attributes['title'],
-            'abbreviation' => $attributes['abbreviation'],
-        ]);
-
-        $directory = 'schools/' . $attributes['abbreviation'];
-
-        if (!file_exists($directory)) {
-            Storage::makeDirectory($directory);
-        };
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(School $school)
+    public function show(Department $department)
     {
         //
     }
@@ -57,7 +42,7 @@ class SchoolController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(School $school)
+    public function edit(Department $department)
     {
         //
     }
@@ -65,7 +50,7 @@ class SchoolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, School $school)
+    public function update(Request $request, Department $department)
     {
         //
     }
@@ -73,7 +58,7 @@ class SchoolController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(School $school)
+    public function destroy(Department $department)
     {
         //
     }
