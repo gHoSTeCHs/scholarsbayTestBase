@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\College;
 use App\Models\Department;
 use App\Models\School;
+use App\Models\Subject;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class DepartmentController extends Controller
+class SubjectController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,34 +31,23 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = $request->validate([
-           'name' => 'required',
-           'abbreviation' => 'required',
-           'school' => 'required',
-           'college' =>  'required'
+        $attributes = request()->validate([
+            'name' => 'required',
+            'code' => 'required',
+            'school' => 'required',
+            'college' => 'required',
+            'department' => 'required',
         ]);
 
         $school = School::query()->where('name', $attributes['school'])->first();
         $college = College::query()->where('name', $attributes['college'])->first();
-
-        $department = Department::query()->create([
-            'school_id' => $school->id,
-            'college_id' => $college->id,
-            'name' => $attributes['name'],
-            'abbreviation' => $attributes['abbreviation'],
-        ]);
-
-        $directory = 'schools/' . $school->abbreviation. '/colleges/' . $college->abbreviation . '/' .$attributes['name'];
-
-        if(!file_exists($directory)){
-            Storage::makeDirectory($directory);
-        }
+        $department = Department::query()->where('name', $attributes['department'])->first();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Department $department)
+    public function show(Subject $subject)
     {
         //
     }
@@ -66,7 +55,7 @@ class DepartmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Department $department)
+    public function edit(Subject $subject)
     {
         //
     }
@@ -74,7 +63,7 @@ class DepartmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Department $department)
+    public function update(Request $request, Subject $subject)
     {
         //
     }
@@ -82,7 +71,7 @@ class DepartmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Department $department)
+    public function destroy(Subject $subject)
     {
         //
     }

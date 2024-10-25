@@ -1,8 +1,12 @@
 <?php
 
 use App\Http\Controllers\CollegeController;
+use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\SubjectController;
+use App\Models\College;
+use App\Models\Department;
 use App\Models\School;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +23,13 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     $schools = School::all();
+    $colleges = College::all();
+    $departments = Department::all();
 
-    return Inertia::render('Dashboard', ['schools' => $schools]);
+    return Inertia::render('Dashboard', [
+        'schools' => $schools,
+        'colleges' => $colleges
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -31,5 +40,7 @@ Route::middleware('auth')->group(function () {
 
 Route::post('/schools', [SchoolController::class, 'store'])->name('schools.store');
 Route::post('/colleges', [CollegeController::class, 'store'])->name('colleges.store');
+Route::post('/departments', [DepartmentController::class, 'store'])->name('departments.store');
+Route::post('/subjects', [SubjectController::class, 'store'])->name('subjects.store');
 
 require __DIR__ . '/auth.php';

@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-use Database\Factories\DepartmentFactory;
+use Database\Factories\SubjectFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Subject extends Model
 {
-    /** @use HasFactory<DepartmentFactory> */
+    /** @use HasFactory<SubjectFactory> */
     use HasFactory;
 
     protected $guarded = [];

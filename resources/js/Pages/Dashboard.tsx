@@ -6,8 +6,10 @@ import TextInput from "@/Components/TextInput";
 import {FormEventHandler} from "react";
 import PrimaryButton from "@/Components/PrimaryButton";
 import College from "@/Pages/Addons/College";
+import Department from "@/Pages/Addons/Department";
+import Subject from "@/Pages/Addons/Subject";
 
-export default function Dashboard({ schools }: { schools: any }) {
+export default function Dashboard({schools, colleges, departments}: { schools: any, colleges: any, departments:any }) {
 
     const {data, setData, errors, post, processing} = useForm({
         title: '',
@@ -78,6 +80,8 @@ export default function Dashboard({ schools }: { schools: any }) {
                                 </div>
 
                                 <College schools={schools}/>
+                                <Department schools={schools} colleges={colleges}/>
+                                <Subject school={schools} college={colleges} department={departments} />
                             </div>
 
                         </div>

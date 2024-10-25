@@ -1,36 +1,42 @@
 import {useForm} from "@inertiajs/react";
+import {FormEventHandler} from "react";
 import InputLabel from "@/Components/InputLabel";
 import TextInput from "@/Components/TextInput";
 import InputError from "@/Components/InputError";
-import PrimaryButton from "@/Components/PrimaryButton";
 import SelectBox from "@/Components/Select";
+import PrimaryButton from "@/Components/PrimaryButton";
 
-const College = ({schools}: { schools: any }) => {
+const Department = ({schools, colleges}: { schools: any, colleges: any }) => {
 
-    const {data, processing, setData, errors, post} = useForm({
+    const {data, setData, errors, processing, post} = useForm({
         name: '',
+        abbreviation: '',
         school: '',
-        abbreviation: ''
+        college: ''
     })
 
-    let schoolTiles:any = [];
+    let schoolTiles: any = [];
     schools?.forEach((school: any) => {
         schoolTiles.push(school.name)
     })
 
-    const handleSubmit = (e: any) => {
-        e.preventDefault()
+    let collegeTiles: any = [];
+    colleges?.forEach((college: any) => {
+        collegeTiles.push(college.name)
+    })
 
-        post(route('colleges.store'), {
+    const handleSubmit: FormEventHandler = (e) => {
+        e.preventDefault()
+        post(route('departments.store'), {
             onSuccess: () => {
-                console.log('College created')
+                console.log('Department created')
             }
         })
     }
 
     return (
         <div>
-            <h3 className='text-xl font-bold'>Create College</h3>
+            <h3 className='text-xl font-bold'>Create Department</h3>
             <form className='flex flex-col gap-4'
                   encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div>
@@ -71,6 +77,17 @@ const College = ({schools}: { schools: any }) => {
                     <InputError message={errors.school} className='mt-2'/>
                 </div>
 
+                <div>
+                    <InputLabel htmlFor='college' value='College'/>
+                    <SelectBox
+                        id='college'
+                        name='college'
+                        onChange={(value) => setData('college', value)}
+                        title='college'
+                        values={collegeTiles}/>
+                    <InputError message={errors.college} className='mt-2'/>
+                </div>
+
                 <div className='inline-block'>
                     <PrimaryButton className="ms-4" disabled={processing}>
                         Submit
@@ -81,4 +98,4 @@ const College = ({schools}: { schools: any }) => {
     )
 }
 
-export default College
+export default Department
