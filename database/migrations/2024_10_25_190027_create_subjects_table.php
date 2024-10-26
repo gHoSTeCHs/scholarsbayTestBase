@@ -20,7 +20,6 @@ return new class extends Migration
             $table->foreignIdFor(School::class);
             $table->foreignIdFor(College::class);
             $table->foreignIdFor(Department::class);
-            $table->foreignIdFor(Course::class);
             $table->string('title');
             $table->string('code');
             $table->timestamps();

@@ -48,7 +48,7 @@ class DepartmentController extends Controller
             'abbreviation' => $attributes['abbreviation'],
         ]);
 
-        $directory = 'schools/' . $school->abbreviation. '/colleges/' . $college->abbreviation . '/' .$attributes['name'];
+        $directory = 'schools/' . $school->abbreviation. '/colleges/' . $college->abbreviation . '/departments/' .$attributes['name'];
 
         if(!file_exists($directory)){
             Storage::makeDirectory($directory);

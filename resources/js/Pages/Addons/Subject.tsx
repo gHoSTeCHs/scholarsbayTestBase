@@ -34,7 +34,7 @@ const Subject = ({schools, colleges, departments}: { schools: any, colleges: any
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault()
 
-        post(route('subject.store'), {
+        post(route('subjects.store'), {
             onSuccess: () => {
                 console.log('Subject Created')
             }
@@ -43,7 +43,7 @@ const Subject = ({schools, colleges, departments}: { schools: any, colleges: any
 
     return (
         <div>
-            <h3 className='text-xl font-bold'>Create Department</h3>
+            <h3 className='text-xl font-bold'>Create Subject</h3>
             <form className='flex flex-col gap-4'
                   encType="multipart/form-data" onSubmit={handleSubmit}>
                 <div>

@@ -28,7 +28,8 @@ Route::get('/dashboard', function () {
 
     return Inertia::render('Dashboard', [
         'schools' => $schools,
-        'colleges' => $colleges
+        'colleges' => $colleges,
+        'departments' => $departments
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

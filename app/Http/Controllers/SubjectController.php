@@ -7,6 +7,7 @@ use App\Models\Department;
 use App\Models\School;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SubjectController extends Controller
 {
@@ -42,6 +43,20 @@ class SubjectController extends Controller
         $school = School::query()->where('name', $attributes['school'])->first();
         $college = College::query()->where('name', $attributes['college'])->first();
         $department = Department::query()->where('name', $attributes['department'])->first();
+
+        $subject = Subject::query()->create([
+            'title' => $attributes['name'],
+            'code' => $attributes['code'],
+            'school_id' => $school->id,
+            'college_id' => $college->id,
+            'department_id' => $department->id,
+        ]);
+
+        $directory = 'schools/' . $school->abbreviation . '/colleges/' . $college->abbreviation . '/departments/' . $department->name . '/subjects/' . $subject->code;
+
+        if (!file_exists($directory)) {
+            Storage::makeDirectory($directory);
+        }
     }
 
     /**

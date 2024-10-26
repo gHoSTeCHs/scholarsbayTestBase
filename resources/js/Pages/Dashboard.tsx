@@ -81,7 +81,7 @@ export default function Dashboard({schools, colleges, departments}: { schools: a
 
                                 <College schools={schools}/>
                                 <Department schools={schools} colleges={colleges}/>
-                                <Subject school={schools} college={colleges} department={departments} />
+                                <Subject schools={schools} colleges={colleges} departments={departments} />
                             </div>
 
                         </div>

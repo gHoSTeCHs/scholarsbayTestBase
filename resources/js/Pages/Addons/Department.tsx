@@ -6,7 +6,7 @@ import InputError from "@/Components/InputError";
 import SelectBox from "@/Components/Select";
 import PrimaryButton from "@/Components/PrimaryButton";
 
-const Department = ({schools, colleges}: { schools: any, colleges: any }) => {
+const Department = ({schools, colleges, departments}: { schools: any, colleges: any, departments:any }) => {
 
     const {data, setData, errors, processing, post} = useForm({
         name: '',
