@@ -55,7 +55,7 @@ class SubjectController extends Controller
         $directory = 'schools/' . $school->abbreviation . '/colleges/' . $college->abbreviation . '/departments/' . $department->name . '/subjects/' . $subject->code;
 
         if (!file_exists($directory)) {
-            Storage::makeDirectory($directory);
+            Storage::disk('public')->makeDirectory($directory);
         }
     }
 

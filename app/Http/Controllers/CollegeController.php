@@ -47,7 +47,7 @@ class CollegeController extends Controller
         $directory = 'schools/' . $school->abbreviation . '/colleges/' . $attributes['abbreviation'];
 
         if (!file_exists($directory)) {
-            Storage::makeDirectory($directory);
+            Storage::disk('public')->makeDirectory($directory);
         }
     }
 

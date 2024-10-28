@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\CollegeController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SubjectController;
 use App\Models\College;
+use App\Models\Course;
 use App\Models\Department;
 use App\Models\School;
+use App\Models\Subject;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,6 +35,16 @@ Route::get('/dashboard', function () {
         'departments' => $departments
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/courses' , function(){
+    $courses = Subject::all();
+
+    return Inertia::render('Courses/Index', [
+        'courses' => $courses
+    ]);
+})->name('courses')->middleware('auth');
+
+Route::get('/courses/{title}', [CourseController::class, 'show'] )->name('courses.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
