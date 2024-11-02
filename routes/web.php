@@ -36,16 +36,6 @@ Route::get('/dashboard', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/courses' , function(){
-    $courses = Subject::all();
-
-    return Inertia::render('Courses/Index', [
-        'courses' => $courses
-    ]);
-})->name('courses')->middleware('auth');
-
-Route::get('/courses/{title}', [CourseController::class, 'show'] )->name('courses.show');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -58,3 +48,4 @@ Route::post('/departments', [DepartmentController::class, 'store'])->name('depar
 Route::post('/subjects', [SubjectController::class, 'store'])->name('subjects.store');
 
 require __DIR__ . '/auth.php';
+require  __DIR__ . '/courses.php';

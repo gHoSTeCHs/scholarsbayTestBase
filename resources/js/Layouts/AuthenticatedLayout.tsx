@@ -40,6 +40,13 @@ export default function Authenticated({
                                 >
                                     Courses
                                 </NavLink>
+
+                                <NavLink
+                                    href={route('courses.upload')}
+                                    active={route().current('courses.upload')}
+                                >
+                                    Upload Course
+                                </NavLink>
                             </div>
                         </div>
 

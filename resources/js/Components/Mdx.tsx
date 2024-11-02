@@ -18,6 +18,4 @@ const Mdx = ({markdown}: { markdown: any }) => {
     )
 
 }
-
-
 export default Mdx

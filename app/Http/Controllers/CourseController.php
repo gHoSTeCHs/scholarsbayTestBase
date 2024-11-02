@@ -28,7 +28,7 @@ class CourseController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Courses/Create', []);
     }
 
     /**
@@ -89,7 +89,7 @@ class CourseController extends Controller
             report($e); // Log the error
 
             return redirect()
-                ->route('courses.index')
+                ->route('courses')
                 ->with('error', 'Unable to load course content.');
         }
     }

@@ -1,9 +1,9 @@
-import {Head, usePage} from "@inertiajs/react";
+import {Head, usePage, Link} from "@inertiajs/react";
 import Mdx from "@/Components/Mdx";
+import React, {useState} from 'react';
+import {ChevronRight, ChevronDown, Search, Menu} from 'lucide-react';
 
 const CoursePage = ({course}: { course: any }) => {
-
-    console.log(course);
 
     return (
         <div className="max-w-6xl mx-auto py-8 px-4">
