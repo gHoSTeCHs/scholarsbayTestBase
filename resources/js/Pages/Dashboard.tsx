@@ -80,7 +80,7 @@ export default function Dashboard({schools, colleges, departments}: { schools: a
                                 </div>
 
                                 <College schools={schools}/>
-                                <Department schools={schools} colleges={colleges}/>
+                                <Department schools={schools} colleges={colleges} departments={departments}/>
                                 <Subject schools={schools} colleges={colleges} departments={departments} />
                             </div>
 

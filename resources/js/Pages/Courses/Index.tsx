@@ -3,8 +3,6 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 
 const CoursesPage = ({courses}: { courses: any }) => {
 
-    console.log(courses)
-
     return (
         <AuthenticatedLayout
             header={
@@ -21,11 +19,11 @@ const CoursesPage = ({courses}: { courses: any }) => {
                         <div className="p-6 text-gray-900">
                             <div className='space-y-10'>
 
-                                <div>
+                                <div className='grid grid-cols-1 lg:grid-cols-4'>
                                     {courses.map((course:any, index:number) => {
                                         return (
                                             <Link href={`/courses/${course.code}`} key={index}>
-                                                <div className='p-6 rounded-md'>
+                                                <div className='p-6 rounded-md border border-indigo-400'>
                                                     <h3>{course.code}</h3>
                                                     <p>{course.title}</p>
                                                 </div>

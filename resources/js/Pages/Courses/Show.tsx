@@ -5,9 +5,29 @@ import {ChevronRight, ChevronDown, Search, Menu} from 'lucide-react';
 
 const CoursePage = ({course}: { course: any }) => {
 
+    console.log(course)
+
     return (
         <div className="max-w-6xl mx-auto py-8 px-4">
-            <Head title={course.title}/>
+            {course.sections.map((section: any, index:number) => {
+                return (
+                    <div key={index}>
+                        <h3>{section.title}</h3>
+                        <ul>
+                            {section.topics.map((topic: any, index:number) => {
+                                return (
+                                    <li className='ml-2' key={index}>
+                                        <Link href={`/courses/${course.title}/${topic.topic}`}>
+                                            {topic.topic}
+                                        </Link>
+                                    </li>
+                                )
+                            })}
+
+                        </ul>
+                    </div>
+                )
+            })}
 
             {/* Course Header */}
             <div className="mb-8">
@@ -20,7 +40,12 @@ const CoursePage = ({course}: { course: any }) => {
 
             {/* Course Content */}
             <div className='prose'>
-                <Mdx markdown={course.content}/>
+                <div
+                    dangerouslySetInnerHTML={{__html: course.content}}
+                    className="prose max-w-none" // If using Tailwind typography
+                />
+
+                {/*<Mdx markdown={course.content}/>*/}
             </div>
 
         </div>

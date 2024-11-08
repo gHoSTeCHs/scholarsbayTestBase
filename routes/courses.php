@@ -15,3 +15,5 @@ Route::get('/courses' , function(){
 
 Route::get('/courses/{title}', [CourseController::class, 'show'] )->name('courses.show');
 Route::get('/course/create', [CourseController::class, 'create'] )->name('courses.upload');
+
+Route::get('/courses/{title}/{topic}', [CourseController::class, 'fetchTopic'] )->name('courses.edit');

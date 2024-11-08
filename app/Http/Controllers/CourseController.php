@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\College;
 use App\Models\Course;
+use App\Models\CourseSection;
+use App\Models\CourseTopic;
+use App\Models\Department;
+use App\Models\School;
+use App\Models\Subject;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -45,60 +51,99 @@ class CourseController extends Controller
      */
     public function show($title)
     {
+        $subject = Subject::query()->where('code', $title)->first();
+        $department = Department::query()->where('id', $subject->department_id)->first();
+        $college = College::query()->where('id', $subject->college_id)->first();
+        $school = School::query()->where('id', $subject->school_id)->first();
+
+        $sections = CourseSection::query()->where('course_id', $subject->id)->with('topics')->get();
+
         try {
-            // Sanitize the course title and build the file path
             $courseSlug = Str::slug($title);
             $courseTitle = str_replace('-', ' ', $courseSlug);
-            $markdownFile = "{$this->basePath}/{$courseTitle}/installation.md";
 
-            // Check if the file exists
+            $markdownFile = 'schools/' . $school->abbreviation . '/colleges/' . $college->abbreviation . '/departments/' . $department->name . '/subjects/' . $subject->code . '/introduction.md';
+
             if (!Storage::disk('public')->exists($markdownFile)) {
                 return redirect()
                     ->route('courses.index')
                     ->with('error', 'Course content not found.');
             }
 
-            // Get the markdown content
             $markdownContent = Storage::disk('public')->get($markdownFile);
+            $converter = new CommonMarkConverter();
+            $htmlContent = (string)$converter->convert($markdownContent);
 
-            // Configure the markdown converter with security options
-            $converter = new CommonMarkConverter([
-                'html_input' => 'strip',  // Strips HTML for security
-                'allow_unsafe_links' => false,  // Prevents unsafe links
-                'max_nesting_level' => 100,  // Prevents deeply nested elements
-            ]);
-
-            // Convert markdown to HTML
-            $htmlContent = (string) $converter->convert($markdownContent);
-
-            // Get additional course information
             $lastModified = Storage::disk('public')->lastModified($markdownFile);
 
             return Inertia::render('Courses/Show', [
                 'course' => [
                     'title' => $courseTitle,
-                    'content' => $markdownContent,
+                    'content' => $htmlContent,
                     'lastModified' => Carbon::createFromTimestamp($lastModified)->diffForHumans(),
                     'slug' => $courseSlug,
+                    'sections' => $sections
                 ]
             ]);
 
 
-
         } catch (\Exception $e) {
-            report($e); // Log the error
+            report($e);
 
             return redirect()
                 ->route('courses')
                 ->with('error', 'Unable to load course content.');
         }
     }
+
+    public function fetchTopic($title, $topic)
+    {
+        $courseTitle = Str::upper($title);
+        $subject = Subject::query()->where('code', $courseTitle)->first();
+        $department = Department::query()->where('id', $subject->department_id)->first();
+        $college = College::query()->where('id', $subject->college_id)->first();
+        $school = School::query()->where('id', $subject->school_id)->first();
+
+        $sections = CourseSection::query()->where('course_id', $subject->id)->with('topics')->get();
+        $selectedTopic = CourseTopic::query()->where('course_id', $subject->id)->where('topic', $topic)->first();
+
+        try {
+            $markdownFile = 'schools/' . $school->abbreviation . '/colleges/' . $college->abbreviation . '/departments/' . $department->name . '/subjects/' . $subject->code . '/' . $topic . '.md';
+
+            $markdownContent = Storage::disk('public')->get($markdownFile);
+            $converter = new CommonMarkConverter();
+            try {
+                $htmlContent = (string)$converter->convert($markdownContent);
+            } catch (CommonMarkException $e) {
+                report($e);
+            }
+            $lastModified = Storage::disk('public')->lastModified($markdownFile);
+
+
+            return Inertia::render('Courses/Show', [
+                'course' => [
+                    'title' => $courseTitle,
+                    'content' => $htmlContent ? $htmlContent : null,
+                    'lastModified' => Carbon::createFromTimestamp($lastModified)->diffForHumans(),
+                    'slug' => '',
+                    'sections' => $sections
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            report($e);
+
+            return redirect('');
+        }
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
+
     public function edit(Course $course)
     {
-        //
+
     }
 
     /**

@@ -49,3 +49,4 @@ Route::post('/subjects', [SubjectController::class, 'store'])->name('subjects.st
 
 require __DIR__ . '/auth.php';
 require  __DIR__ . '/courses.php';
+require __DIR__ . '/api.php';

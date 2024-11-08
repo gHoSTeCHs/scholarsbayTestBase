@@ -5,7 +5,7 @@ interface SelectBoxProps {
     id: string
     name:string
     title: string;
-    values: string[];
+    values?: string[];
     onChange: (value: string) => void;
 }
 
@@ -19,7 +19,7 @@ const SelectBox: React.FC<SelectBoxProps> = ({ title, values, onChange, id }) =>
                 <option value={title} disabled selected>
                     {title}
                 </option>
-                {values.map((value) => (
+                {values?.map((value) => (
                     <option key={value} value={value}>
                         {value}
                     </option>
